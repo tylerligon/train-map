@@ -24,4 +24,4 @@ if __name__ == "__main__":
     token = get_token()
     with open("token.txt", "w") as f:
         f.write(token)
-    print ("Token saved in token.")
+    print ("Token saved in token.txt")
