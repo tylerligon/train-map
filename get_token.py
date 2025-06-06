@@ -1,15 +1,13 @@
 import requests
-import os
-USERNAME = os.getenv("USERNAME")
-PASSWORD = os.getenv("PASSWORD")
+import pwinput
 TOKEN_URL = "https://testraildata.njtransit.com/api/GTFSRT/getToken"
 
-def get_token():
+def get_token(username, password):
     response = requests.post(
         TOKEN_URL,
         files = {
-            "username": (None, USERNAME),
-            "password":(None, PASSWORD),
+            "username": (None, username),
+            "password":(None, password),
         },
         headers = {"accept": "text/plain"}
     )
@@ -21,7 +19,9 @@ def get_token():
         raise Exception(f"Auth failed: {result}")
     
 if __name__ == "__main__":
-    token = get_token()
+    username = input("Enter username: ")
+    password = pwinput.pwinput(prompt = "Enter password: ", mask = "*")
+    token = get_token(username, password)
     with open("token.txt", "w") as f:
         f.write(token)
     print ("Token saved in token.txt")
